@@ -1,0 +1,55 @@
+<head> 
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/> 
+    <link rel="stylesheet" href="./bootstrap-5.0.2-dist/css/bootstrap.min.css"/>
+    <title>Quizz pour l'annif de Loïc</title> 
+</head> 
+<body>
+    <div class="container-md">
+        <div class="positive-relative">
+            <div class="position-absolute top-50 start-50 translate-middle">
+                <p class="text-center fs-2 mb-3 fw-bold">Question 1</p>
+                <ul class="list-group list-group-flush fs-3">
+                    <li class="list-group-item">Vrou vroum le camion</li>
+                    <li class="list-group-item">Bla, bla je suis Sabine</li>
+                    <li class="list-group-item">Jolies maquettes</li>
+                </ul>
+                <div class="text-center m-1">
+                    <input id="MainInput">
+                </div>
+                <p class="text-center m-1" id="AnswerDivision" style="display:none">
+                    Aaaaaaaargh
+                </p>
+                <img class="m-1" style="display:none" id="Jamy" src="./Resources/jamy-enorme.gif"><img>
+            </div>
+        </div>
+    </div>
+    <script>
+        var MainInput = document.getElementById("MainInput");
+        
+        MainInput.addEventListener("keydown", function (e) {
+            if (e.code === "Enter") { 
+                validate(e);
+            }
+        });
+        var errorNbr = 0
+
+        async function validate(e) {
+            var text = e.target.value;
+            if(text.toUpperCase() == "C'est pas sorcier".toUpperCase())
+            {
+                document.getElementById("Jamy").style.display = "Block"
+                await new Promise(resolve => setTimeout(resolve, 2000))
+                localStorage.setItem("errorNbr", errorNbr)
+                window.location = "./Pages/Page1.html"
+            }
+            else
+            {
+                document.getElementById("MainInput").value = ""
+                var AnswerDivision = document.getElementById("AnswerDivision")
+                AnswerDivision.style.display = "Block"
+                errorNbr++
+                AnswerDivision.textContent = "Arrrgh:" + errorNbr.toString()
+            }
+        }
+    </script>
+</body>
