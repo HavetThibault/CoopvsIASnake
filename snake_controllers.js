@@ -24,21 +24,21 @@ function linkSnakeControllers(game, document){
 }
 
 function processSnakeController(mouseEvent, snake, left, right, up, down){
-    if (mouseEvent.which === left && snake.dx === 0) {
-        snake.dx = -stepNbr;
-        snake.dy = 0;
+    if (mouseEvent.which == left && snake.moveDirection.x == 0) {
+        snake.moveDirection.x = -stepNbr;
+        snake.moveDirection.y = 0;
     }
-    else if (mouseEvent.which === right && snake.dx === 0) {
-        snake.dx = stepNbr;
-        snake.dy = 0;
+    else if (mouseEvent.which == right && snake.moveDirection.x == 0) {
+        snake.moveDirection.x = stepNbr;
+        snake.moveDirection.y = 0;
     }
-    else if (mouseEvent.which === up && snake.dy === 0) {
-        snake.dy = -stepNbr;
-        snake.dx = 0;
+    else if (mouseEvent.which == up && snake.moveDirection.y == 0) {
+        snake.moveDirection.y = -stepNbr;
+        snake.moveDirection.x = 0;
     }
-    else if (mouseEvent.which === down && snake.dy === 0) {
-        snake.dy = stepNbr;
-        snake.dx = 0;
+    else if (mouseEvent.which == down && snake.moveDirection.y == 0) {
+        snake.moveDirection.y = stepNbr;
+        snake.moveDirection.x = 0;
     }
 }
 
