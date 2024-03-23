@@ -2,133 +2,167 @@ import {Snake} from './snake.js';
 import {Point, equals, add, copy} from './point.js'; 
 import {getRandomInt} from './helper.js';
 
+
 const snakeMoveDirection = new Point(1, 0)
 const initialMovePeriod = 8;
 const initialBodyPartsNbr = 5;
 
+function getInitialSnake(snakePos){
+    return new Snake(
+        snakePos, 
+        copy(snakeMoveDirection), 
+        initialBodyPartsNbr, 
+        initialMovePeriod);
+}
+
+
+function resetSnake(snake, snakePos){
+    snake.reset(
+        snakePos, 
+        copy(snakeMoveDirection), 
+        initialBodyPartsNbr, 
+        initialMovePeriod);
+}
+
+
 class Game{
     constructor(snake1Pos, snake2Pos, xCellsNbr, yCellsNbr, opponentsPositions){
-        this.snake1 = new Snake(
-            snake1Pos, 
-            copy(snakeMoveDirection), 
-            initialBodyPartsNbr, 
-            initialMovePeriod);
-        this.snake2 = new Snake(
-            snake2Pos, 
-            copy(snakeMoveDirection), 
-            initialBodyPartsNbr, 
-            initialMovePeriod);
-        this.opponentsPositions = opponentsPositions;
-        this.opponentsNbr = opponentsPositions.length;
-        this.xCellsNbr = xCellsNbr;
-        this.yCellsNbr = yCellsNbr;
-        this.cellsNbr = xCellsNbr * yCellsNbr;
-        this.opponents = [];
-        this.food1Pos = null;
-        this.food2Pos = null;
-        this.malus = [];
-        this.tick = 0;
-    }
-
-    moveSnake(snake){
-        if(this.tick % snake.nextMovePeriod != 0)
-            return;
-        const nextPos = add(snake.moveDirection, snake.headPos);
-        if(nextPos.x < 0)
-            nextPos.x = this.xCellsNbr-1;
-        else if(nextPos.x >= this.xCellsNbr)
-            nextPos.x = 0;
-        if(nextPos.y < 0)
-            nextPos.y = this.yCellsNbr-1;
-        else if(nextPos.y >= this.yCellsNbr)
-            nextPos.y = 0;
-        snake.nextMove(nextPos);
-    }
-
-    playTick(){
-        this.moveSnake(this.snake1);
-        this.moveSnake(this.snake2);
-        this.opponents.forEach(opponent => {
-            this.moveSnake(opponent);
-        });
-        if(equals(this.snake1.headPos, this.food1Pos)){
-            this.snake1.bodyPartsNbr++;
-            this.food1Pos = this.getFoodPos(this.food2Pos);
-        }
-        if(equals(this.snake2.headPos, this.food2Pos)){
-            this.snake2.bodyPartsNbr++;
-            this.food2Pos = this.getFoodPos(this.food1Pos)
-        }
-        if(this.snake1.isBittingItself() || this.snake2.isBittingItself() || 
-            this.snake2.isColliding(this.snake1.headPos) || this.snake1.isColliding(this.snake2.headPos)){
-            this.loosing();
-        }
-        this.malusNextTick();
-        this.tick++;
-    }
-
-    malusNextTick() {
-        for (let i = this.malus.length - 1; i >= 0; i--) {
-            this.malus[i].tickDuration--;
-            if (this.malus[i].tickDuration === 0) {
-                this.malus.splice(i, 1);
-            }
-        }
-    }
-
-    loosing(){
-
-    }
-
-    resetGame(){
-        this.opponents = [];
-        this.opponentsPositions.forEach(opponentPosition => {
+        this._snake1Pos = snake1Pos;
+        this._snake2Pos = snake2Pos;
+        this._snake1 = getInitialSnake(snake1Pos);
+        this._snake2 = getInitialSnake(snake2Pos);
+        this._opponentsPositions = opponentsPositions;
+        this._opponentsNbr = opponentsPositions.length;
+        this._xCellsNbr = xCellsNbr;
+        this._yCellsNbr = yCellsNbr;
+        this._cellsNbr = xCellsNbr * yCellsNbr;
+        this._malus = [];
+        this._tick = 0;
+        this._opponents = [];
+        this._opponentsPositions.forEach(opponentPosition => {
             this.addOpponent(opponentPosition);
         });
         this.initFoodPos();
     }
 
+    get snake1(){
+        return this._snake1;
+    }
+
+    get snake2(){
+        return this._snake2;
+    }
+
+    get foodPos1(){
+        return this.food1Pos;
+    }
+
+    get foodPos2(){
+        return this._food2Pos;
+    }
+
+    get opponents(){
+        return this._opponents;
+    }
+
+    resetGame(){
+        this._malus = [];
+        this._tick = 0;
+        this._opponents = [];
+        this._opponentsPositions.forEach(opponentPosition => {
+            this.addOpponent(opponentPosition);
+        });
+        resetSnake(this._snake1, this._snake1Pos);
+        resetSnake(this._snake2, this._snake2Pos);
+    }
+
+    moveSnake(snake){
+        if(this._tick % snake.nextMovePeriod != 0)
+            return;
+        const nextPos = add(snake.moveDirection, snake.headPos);
+        if(nextPos.x < 0)
+            nextPos.x = this._xCellsNbr-1;
+        else if(nextPos.x >= this._xCellsNbr)
+            nextPos.x = 0;
+        if(nextPos.y < 0)
+            nextPos.y = this._yCellsNbr-1;
+        else if(nextPos.y >= this._yCellsNbr)
+            nextPos.y = 0;
+        snake.nextMove(nextPos);
+    }
+
+    playTick(){
+        -this.moveSnake(this._snake1);
+        -this.moveSnake(this._snake2);
+        this._opponents.forEach(opponent => {
+            this.moveSnake(opponent);
+        });
+        if(equals(this._snake1.headPos, this._food1Pos)){
+            this._snake1.bodyPartsNbr++;
+            this._food1Pos = this.getFoodPos(this._food2Pos);
+        }
+        if(equals(this._snake2.headPos, this._food2Pos)){
+            this._snake2.bodyPartsNbr++;
+            this.food2Pos = this.getFoodPos(this._food1Pos)
+        }
+        if(this._snake1.isBittingItself() || this._snake2.isBittingItself() || 
+            this._snake2.isColliding(this._snake1.headPos) || this._snake1.isColliding(this._snake2.headPos)){
+            this.loosing();
+        }
+        this.malusNextTick();
+        this._tick++;
+    }
+
+    malusNextTick() {
+        for (let i = this._malus.length - 1; i >= 0; i--) {
+            this._malus[i].tickDuration--;
+            if (this._malus[i].tickDuration === 0) {
+                this._malus.splice(i, 1);
+            }
+        }
+    }
+
+    loosing(){
+        //this.resetGame();
+    }
+
     addOpponent(position){
-        this.opponents.push(new Snake(
-            position, 
-            copy(snakeMoveDirection), 
-            initialBodyPartsNbr, 
-            initialMovePeriod));
+        this._opponents.push(getInitialSnake(position));
     }
 
     initFoodPos(){
-        this.food1Pos = this.getFoodPos(null);
-        this.food2Pos = this.getFoodPos(this.food1Pos);
+        this._food1Pos = this.getFoodPos(null);
+        this._food2Pos = this.getFoodPos(this._food1Pos);
     }
 
     getFoodPos(otherFoodPos){
         let foodIndex = this.getRandomFoodIndex(otherFoodPos != null);
-        console.log(foodIndex);
         let point = new Point(0, 0);
-        for(let y = 0; y < this.yCellsNbr; y++){
+        for(let y = 0; y < this._yCellsNbr; y++){
             point.y = y;
-            for(let x = 0; x < this.xCellsNbr; x++){
+            for(let x = 0; x < this._xCellsNbr; x++){
                 point.x = x;
-                if(!this.snake1.isColliding(point) && !this.snake2.isColliding(point) && !equals(point, otherFoodPos)){
+                if(!this._snake1.isColliding(point) && !this._snake2.isColliding(point) && !equals(point, otherFoodPos)){
                     if(foodIndex == 0)
                         return point;
                     foodIndex--;
                 }
             }
         }
+        console.log('Shouldn\'t be there ');
     }
 
     getRandomFoodIndex(isOtherFoodPresent){
         let occupiedCellNbr = 0;
-        occupiedCellNbr += this.snake1.bodyParts.length;
-        occupiedCellNbr += this.snake2.bodyParts.length;
-        this.opponents.forEach(opponent => {
+        occupiedCellNbr += this._snake1.bodyParts.length;
+        occupiedCellNbr += this._snake2.bodyParts.length;
+        this._opponents.forEach(opponent => {
             occupiedCellNbr += opponent.bodyParts.length;
         });
         if(isOtherFoodPresent){
             occupiedCellNbr++;
         }
-        return getRandomInt(0, this.cellsNbr - occupiedCellNbr);
+        return getRandomInt(0, this._cellsNbr - occupiedCellNbr);
     }
 }
 

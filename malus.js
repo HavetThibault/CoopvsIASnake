@@ -1,7 +1,11 @@
 
 class Malus {
     constructor(tickDuration){
-        this.tickDuration = tickDuration;
+        this._tickDuration = tickDuration;
+    }
+
+    get tickDuration(){
+        return this._tickDuration;
     }
 
     getMoveDirection(snake){

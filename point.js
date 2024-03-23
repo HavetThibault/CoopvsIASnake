@@ -1,5 +1,5 @@
 function equals(p1, p2){
-    return p1 != null && p2 != null && p1.x == p2.x && p2.y == p2.y;
+    return p1 != null && p2 != null && p1.x == p2.x && p1.y == p2.y;
 }
 
 function invert(p1){
@@ -17,8 +17,24 @@ function copy(p1){
 
 class Point{
     constructor(x, y){
-        this.x = x;
-        this.y = y;
+        this._x = x;
+        this._y = y;
+    }
+
+    get x(){
+        return this._x;
+    }
+
+    set x(value){
+        this._x = value;
+    }
+
+    get y(){
+        return this._y;
+    }
+
+    set y(value){
+        this._y = value;
     }
 }
 
