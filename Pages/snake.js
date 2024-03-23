@@ -1,4 +1,4 @@
-import {equals, invert} from 'point.js';
+import {equals} from 'point.js';
 
 class Snake {
     constructor(initialPos, moveDirection, bodyPartsNbr, nextMovePeriod){

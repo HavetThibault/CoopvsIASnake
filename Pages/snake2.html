@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  canvas {
+    border: 1px solid white;
+  }
+  </style>
+  <link rel="stylesheet" href="../bootstrap-5.0.2-dist/css/bootstrap.min.css"/>
+  <title>Mini-jeu - Annif de Clément et Marie</title>
+</head>
+<body class="bg-dark">
+  <div class="container-center-md">
+    <p id="scoreLabel" class="text-secondary text-center fs-3"></p>
+    <canvas class="border border-secondary" width="1000" height="800" id="game"></canvas>
+    <p id="gift1" class="text-secondary text-center fs-2"></p>
+    <p id="gift2" class="text-secondary text-center fs-2"></p>
+  </div>
+  <script>
+    import {Game} from 'game.js';
+    import {linkSnakeControllers} from 'snake_controllers.js';
+
+    var canvas = document.getElementById('game');
+    var context = canvas.getContext('2d');
+
+    var game = new Game();
+
+    var initTime = 14;
+    const initSpeed = 1;
+    var speed = initSpeed;
+    var deaths = 0;
+      //////////////::canvas.width,canvas.height
+    
+    // game loop
+    function loop() {
+      requestAnimationFrame(loop);
+
+      // slow game loop to <initTime> fps instead of 60 (60/initTime)
+      count = count + 2*speed
+      if (count < initTime) {
+        return;
+      }
+
+      
+    }
+
+    linkSnakeControllers(game, document);
+    
+    // start the game
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>

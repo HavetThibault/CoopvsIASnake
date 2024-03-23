@@ -1,5 +1,5 @@
 function equals(p1, p2){
-    return p1 != null && p2 != null && p1.x == p2.x && p2.y == p2.y;
+    return p1 != null && p2 != null && p1.x === p2.x && p2.y === p2.y;
 }
 
 function invert(p1){

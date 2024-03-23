@@ -1,26 +1,20 @@
 import {Snake} from 'snake.js'; 
-import {Point} from 'point.js'; 
+import {Point, equals} from 'point.js'; 
 import {getRandomInt} from 'helper.js';
-
-const snake1InitialX = 10;
-const snake1InitialY = 10;
 
 const snakeMoveDirection = new Point(1, 0)
 
 class Game{
-    constructor(snake1, snake2, cellWidth, cellHeight, gridWidth, gridHeight, opponentsPositions){
-        this.snake1 = snake1;
+    constructor(xCellsNbr, yCellsNbr, opponentsNbr){
+        this.snake1 = new Snake();
         this.snake2 = snake2;
-        this.cellWidth = cellWidth;
-        this.cellHeight = cellHeight;
-        this.gridWidth = gridWidth;
-        this.gridHeight = gridHeight;
-        this.opponentsPositions = opponentsPositions;
-        this.xCellsNbr = gridWidth / cellWidth;
-        this.yCellsNbr = gridHeight / cellHeight;
+        this.opponentsNbr = opponentsNbr;
+        this.xCellsNbr = xCellsNbr;
+        this.yCellsNbr = yCellsNbr;
         this.cellsNbr = xCellsNbr * yCellsNbr;
         this.opponents = [];
         this.food1Pos = null;
+        this.malus = []
         this.food2Pos = null;
     }
 
@@ -33,11 +27,19 @@ class Game{
             this.snake1.bodyPartsNbr++;
             this.food1Pos = this.getFoodPos(this.food1Pos)
         }
-        if(this.snake1.isBittingItself() || this.snake2.isBittingItself()){
-
+        if(this.snake1.isBittingItself() || this.snake2.isBittingItself() || 
+            this.snake2.isColliding(this.snake1.headPos) || this.snake1.isColliding(this.snake2.headPos)){
+            this.loosing();
         }
-        if(){
-            
+        this.malusNextTick();
+    }
+
+    malusNextTick() {
+        for (let i = this.malus.length - 1; i >= 0; i--) {
+            this.malus[i].tickDuration--;
+            if (this.malus[i].tickDuration === 0) {
+                this.malus.splice(i, 1);
+            }
         }
     }
 
@@ -45,7 +47,8 @@ class Game{
 
     }
 
-    initGame(){
+    resetGame(){
+        this.opponents = [];
         this.opponentsPositions.array.forEach(opponentPos => {
             this.addOpponent(opponentPos);
         });
@@ -62,7 +65,7 @@ class Game{
     }
 
     getFoodPos(otherFoodPos){
-        foodIndex = this.getRandomFoodIndex(otherFoodPos != null);
+        let foodIndex = this.getRandomFoodIndex(otherFoodPos != null);
         let point = new Point(0, 0);
         for(y = 0; y < this.yCellsNbr; y++){
             point.y = y;
