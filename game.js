@@ -1,15 +1,17 @@
 import {Snake} from './snake.js'; 
 import {Point, equals, add, copy, toString} from './point.js'; 
 import {getRandomInt} from './helper.js';
+import {InvertCtrlMalus} from './invert_ctrl_malus.js'
 
 
 const snakeMoveDirection = new Point(1, 0)
-const initialMovePeriod = 8;
-const initialBodyPartsNbr = 5;
+const initialMovePeriod = 3;
+const initialBodyPartsNbr = 8;
+const invertCtrlMalusDuration = 10000;
 
 function getInitialSnake(snakePos){
     return new Snake(
-        snakePos, 
+        snakePos,
         copy(snakeMoveDirection), 
         initialBodyPartsNbr, 
         initialMovePeriod);
@@ -79,7 +81,7 @@ class Game{
     moveSnake(snake){
         if(this._tick % snake.nextMovePeriod != 0)
             return;
-        let nextPos = add(snake.moveDirection, snake.headPos);
+        let nextPos = add(snake.move, snake.headPos);
         if(nextPos.x < 0)
             nextPos.x = this._xCellsNbr-1;
         else if(nextPos.x >= this._xCellsNbr)
@@ -118,24 +120,36 @@ class Game{
         if(equals(this._snake1.headPos, this._food1Pos)){
             this._snake1._bodyPartsNbr++;
             this._food1Pos = this.getFoodPos(this._food2Pos);
-            console.log('Food pos1:' + toString(this._food1Pos))
+        }
+        else if (equals(this._snake2.headPos, this._food1Pos)){
+            let malus = new InvertCtrlMalus(invertCtrlMalusDuration);
+            this._malus.push(malus);
+            this._snake1.malus.push(malus);
+            this._food1Pos = this.getFoodPos(this._food2Pos);
         }
         if(equals(this._snake2.headPos, this._food2Pos)){
             this._snake2._bodyPartsNbr++;
             this._food2Pos = this.getFoodPos(this._food1Pos)
-            console.log('Food pos2:' + toString(this._food2Pos))
+        }
+        else if (equals(this._snake1.headPos, this._food2Pos)){
+            let malus = new InvertCtrlMalus(invertCtrlMalusDuration);
+            this._malus.push(malus);
+            this._snake2.malus.push(malus);
+            this._food2Pos = this.getFoodPos(this._food1Pos)
         }
         if(this.collisionDetected()){
             this.loosing();
         }
         this.malusNextTick();
+        this._snake1.removeExpiredMalus();
+        this._snake2.removeExpiredMalus();
         this._tick++;
     }
 
     malusNextTick() {
         for (let i = this._malus.length - 1; i >= 0; i--) {
             this._malus[i].tickDuration--;
-            if (this._malus[i].tickDuration === 0) {
+            if (this._malus[i].tickDuration == 0) {
                 this._malus.splice(i, 1);
             }
         }
@@ -152,8 +166,6 @@ class Game{
     initFoodPos(){
         this._food1Pos = this.getFoodPos(null);
         this._food2Pos = this.getFoodPos(this._food1Pos);
-        console.log('Food pos1:' + toString(this._food1Pos))
-        console.log('Food pos2:' + toString(this._food2Pos))
     }
 
     getFoodPos(otherFoodPos){
@@ -170,7 +182,7 @@ class Game{
                 }
             }
         }
-        console.log('Shouldn\'t be there ');
+        console.log('Shouldn\'t be there !');
     }
 
     getRandomFoodIndex(isOtherFoodPresent){

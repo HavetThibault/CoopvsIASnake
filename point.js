@@ -3,8 +3,7 @@ function equals(p1, p2){
 }
 
 function invert(p1){
-    p1.x = -p1.x;
-    p1.y = -p1.y;
+    return new Point(-p1.x, -p1.y);
 }
 
 function add(p1, p2){

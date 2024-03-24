@@ -1,22 +1,23 @@
-import {equals} from './point.js';
+import {equals, copy} from './point.js';
 
 class Snake {
-    constructor(initialPos, moveDirection, bodyPartsNbr, nextMovePeriod){
+    constructor(initialPos, move, bodyPartsNbr, nextMovePeriod){
         this._headPos = initialPos;
-        this._moveDirection = moveDirection;
+        this._move = move;
         this._bodyPartsNbr = bodyPartsNbr;
         this._bodyParts = [];
         this._bodyParts.push(initialPos);
         this._malus = []
         this._nextMovePeriod = nextMovePeriod;
+        this._processedMoveDirection = true;
     }
 
     get headPos(){
         return this._headPos;
     }
 
-    get moveDirection(){
-        return this._moveDirection;
+    get move(){
+        return this._move;
     }
 
     get nextMovePeriod(){
@@ -26,10 +27,26 @@ class Snake {
     get bodyParts(){
         return this._bodyParts;
     }
+
+    get malus(){
+        return this._malus;
+    }
+
+    setMoveDirection(move){
+        if(this._processedMoveDirection){
+            this._malus.forEach(malus => {
+                move = malus.getMoveDirection(this, move);
+            });
+            if(!(Math.sign(move.x) == -Math.sign(this._move.x) && Math.sign(move.y) == -Math.sign(this._move.y))){
+                this._move = copy(move);
+                this._processedMoveDirection = false;
+            }
+        }
+    }
     
     reset(initialPos, moveDirection, bodyPartsNbr, nextMovePeriod){
         this._headPos = initialPos;
-        this._moveDirection = moveDirection;
+        this._move = moveDirection;
         this._bodyPartsNbr = bodyPartsNbr;
         this._bodyParts = [];
         this._bodyParts.push(initialPos);
@@ -46,6 +63,7 @@ class Snake {
         this._bodyParts.unshift(nextHeadPos);
         if(this._bodyParts.length == this._bodyPartsNbr)
             this._bodyParts.pop();
+        this._processedMoveDirection = true;
     }
 
     isBittingItself(){
@@ -71,18 +89,10 @@ class Snake {
 
     removeExpiredMalus(){
         for (let i = this._malus.length - 1; i >= 0; i--) {
-            if (this._malus[i].tickDuration === 0) {
+            if (this._malus[i].tickDuration == 0) {
                 this._malus.splice(i, 1);
             }
         }
-    }
-
-    getMoveDirection(){
-        let moveDirection = this._moveDirection;
-        this._malus.forEach((malus) => {
-            moveDirection = malus.getMoveDirection(moveDirection);
-        })
-        return moveDirection;
     }
 }
 

@@ -8,7 +8,13 @@ class Malus {
         return this._tickDuration;
     }
 
-    getMoveDirection(snake){
+    set tickDuration(value){
+        this._tickDuration = value;
+    }
+
+    getMoveDirection(snake, moveDirection){
         return snake.moveDirection;
     }
 }
+
+export {Malus};

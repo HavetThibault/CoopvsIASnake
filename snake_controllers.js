@@ -1,3 +1,5 @@
+import {Point} from './point.js'
+
 const qKey = 81;
 const zKey = 90;
 const dKey = 68;
@@ -10,6 +12,7 @@ const downArrow = 40;
 
 
 const stepNbr = 1;
+let direction = new Point(0, 0)
 
 function linkSnakeControllers(game, document){
     document.addEventListener('keydown', function(mouseEvent) {
@@ -19,21 +22,25 @@ function linkSnakeControllers(game, document){
 }
 
 function processSnakeController(mouseEvent, snake, left, right, up, down){
-    if (mouseEvent.which == left && snake.moveDirection.x == 0) {
-        snake.moveDirection.x = -stepNbr;
-        snake.moveDirection.y = 0;
+    if (mouseEvent.which == left) {
+        direction.x = -stepNbr;
+        direction.y = 0;
+        snake.setMoveDirection(direction);
     }
-    else if (mouseEvent.which == right && snake.moveDirection.x == 0) {
-        snake.moveDirection.x = stepNbr;
-        snake.moveDirection.y = 0;
+    else if (mouseEvent.which == right) {
+        direction.x = stepNbr;
+        direction.y = 0;
+        snake.setMoveDirection(direction);
     }
-    else if (mouseEvent.which == up && snake.moveDirection.y == 0) {
-        snake.moveDirection.y = -stepNbr;
-        snake.moveDirection.x = 0;
+    else if (mouseEvent.which == up) {
+        direction.x = 0;
+        direction.y = -stepNbr;
+        snake.setMoveDirection(direction);
     }
-    else if (mouseEvent.which == down && snake.moveDirection.y == 0) {
-        snake.moveDirection.y = stepNbr;
-        snake.moveDirection.x = 0;
+    else if (mouseEvent.which == down) {
+        direction.x = 0;
+        direction.y = stepNbr;
+        snake.setMoveDirection(direction);
     }
 }
 

@@ -3,8 +3,8 @@ import {linkSnakeControllers} from './snake_controllers.js';
 import {GameRenderer} from './game_renderer.js';
 import {Point} from './point.js';
 
-const cellWidth = 15;
-const cellHeight = 15;
+const cellWidth = 20;
+const cellHeight = 20;
 const snake1Pos = new Point(15, 5);
 const snake2Pos = new Point(5, 5);
 const opponnentsPositions = [new Point(5, 15), new Point(15, 15)];
