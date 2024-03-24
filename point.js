@@ -15,6 +15,10 @@ function copy(p1){
     return new Point(p1.x, p1.y);
 }
 
+function toString(p1){
+    return '(' + p1.x + ',' + p1.y + ')';
+}
+
 class Point{
     constructor(x, y){
         this._x = x;
@@ -38,4 +42,4 @@ class Point{
     }
 }
 
-export {Point, equals, invert, add, copy};
+export {Point, equals, invert, add, copy, toString};

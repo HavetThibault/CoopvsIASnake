@@ -3,8 +3,8 @@ import {linkSnakeControllers} from './snake_controllers.js';
 import {GameRenderer} from './game_renderer.js';
 import {Point} from './point.js';
 
-const cellWidth = 40;
-const cellHeight = 40;
+const cellWidth = 15;
+const cellHeight = 15;
 const snake1Pos = new Point(15, 5);
 const snake2Pos = new Point(5, 5);
 const opponnentsPositions = [new Point(5, 15), new Point(15, 15)];
@@ -22,9 +22,7 @@ var gameRenderer = new GameRenderer(context, canvas.width, canvas.height, cellWi
 function loop() {
     requestAnimationFrame(loop);
     game.playTick();
-    console.log(game.snake1.headPos.x + ' - ' + game.snake1.headPos.y)
     gameRenderer.renderGameFrame(game);
-    console.log('Played tick');
 }
 
 linkSnakeControllers(game, document);

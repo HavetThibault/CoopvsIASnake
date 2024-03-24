@@ -49,12 +49,24 @@ class Snake {
     }
 
     isBittingItself(){
-        return this.isColliding(this._headPos);
+        for(let i = this._bodyPartsNbr; i >= 1; i--){
+            if(equals(this._bodyParts[i],this._headPos))
+                return true;
+        }
+        return false;
     }
 
     isColliding(pos){
         let result = this._bodyParts.find(bodyPart => equals(bodyPart, pos));
         return result != null;
+    }
+
+    areSnakeColliding(snake){
+        if(this.isColliding(snake.headPos))
+            return true;
+        if(snake.isColliding(this.headPos))
+            return true;
+        return false;
     }
 
     removeExpiredMalus(){

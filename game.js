@@ -1,5 +1,5 @@
 import {Snake} from './snake.js'; 
-import {Point, equals, add, copy} from './point.js'; 
+import {Point, equals, add, copy, toString} from './point.js'; 
 import {getRandomInt} from './helper.js';
 
 
@@ -54,7 +54,7 @@ class Game{
     }
 
     get foodPos1(){
-        return this.food1Pos;
+        return this._food1Pos;
     }
 
     get foodPos2(){
@@ -79,7 +79,7 @@ class Game{
     moveSnake(snake){
         if(this._tick % snake.nextMovePeriod != 0)
             return;
-        const nextPos = add(snake.moveDirection, snake.headPos);
+        let nextPos = add(snake.moveDirection, snake.headPos);
         if(nextPos.x < 0)
             nextPos.x = this._xCellsNbr-1;
         else if(nextPos.x >= this._xCellsNbr)
@@ -91,22 +91,41 @@ class Game{
         snake.nextMove(nextPos);
     }
 
+    collisionDetected(){
+        if(this._snake1.isBittingItself())
+            return true;
+        if(this._snake2.isBittingItself())
+            return true;
+        if(this._snake2.isColliding(this._snake1.headPos))
+            return true;
+        if(this._snake1.isColliding(this._snake2.headPos))
+            return true;
+        for(let i = this._opponentsNbr - 1; i >= 0; i--){
+            if(this._snake1.areSnakeColliding(this._opponents[i]))
+                return true;
+            if(this._snake2.areSnakeColliding(this._opponents[i]))
+                return true;
+        }
+        return false;
+    }
+
     playTick(){
-        -this.moveSnake(this._snake1);
-        -this.moveSnake(this._snake2);
+        this.moveSnake(this._snake1);
+        this.moveSnake(this._snake2);
         this._opponents.forEach(opponent => {
             this.moveSnake(opponent);
         });
         if(equals(this._snake1.headPos, this._food1Pos)){
-            this._snake1.bodyPartsNbr++;
+            this._snake1._bodyPartsNbr++;
             this._food1Pos = this.getFoodPos(this._food2Pos);
+            console.log('Food pos1:' + toString(this._food1Pos))
         }
         if(equals(this._snake2.headPos, this._food2Pos)){
-            this._snake2.bodyPartsNbr++;
-            this.food2Pos = this.getFoodPos(this._food1Pos)
+            this._snake2._bodyPartsNbr++;
+            this._food2Pos = this.getFoodPos(this._food1Pos)
+            console.log('Food pos2:' + toString(this._food2Pos))
         }
-        if(this._snake1.isBittingItself() || this._snake2.isBittingItself() || 
-            this._snake2.isColliding(this._snake1.headPos) || this._snake1.isColliding(this._snake2.headPos)){
+        if(this.collisionDetected()){
             this.loosing();
         }
         this.malusNextTick();
@@ -123,7 +142,7 @@ class Game{
     }
 
     loosing(){
-        //this.resetGame();
+        this.resetGame();
     }
 
     addOpponent(position){
@@ -133,6 +152,8 @@ class Game{
     initFoodPos(){
         this._food1Pos = this.getFoodPos(null);
         this._food2Pos = this.getFoodPos(this._food1Pos);
+        console.log('Food pos1:' + toString(this._food1Pos))
+        console.log('Food pos2:' + toString(this._food2Pos))
     }
 
     getFoodPos(otherFoodPos){

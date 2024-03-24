@@ -1,12 +1,7 @@
-const qKey = 113;
-const zKey = 122;
-const dKey = 100;
-const sKey = 115;
-
-const kKey = 107;
-const oKey = 111;
-const lKey = 108;
-const mKey = 109;
+const qKey = 81;
+const zKey = 90;
+const dKey = 68;
+const sKey = 83;
 
 const leftArrow = 37;
 const upArrow = 38;
