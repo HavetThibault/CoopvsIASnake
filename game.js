@@ -1,5 +1,5 @@
-import {Snake} from './snake.js'; 
-import {Point, equals, add, copy, toString} from './point.js'; 
+import {PlayerSnake} from './player_snake.js'; 
+import {Point, equals, add, copy} from './point.js'; 
 import {getRandomInt} from './helper.js';
 import {InvertCtrlMalus} from './invert_ctrl_malus.js'
 
@@ -7,16 +7,15 @@ import {InvertCtrlMalus} from './invert_ctrl_malus.js'
 const snakeMoveDirection = new Point(1, 0)
 const initialMovePeriod = 3;
 const initialBodyPartsNbr = 8;
-const invertCtrlMalusDuration = 10000;
+const invertCtrlMalusDuration = 200;
 
-function getInitialSnake(snakePos){
-    return new Snake(
+function getPlayerSnake(snakePos){
+    return new PlayerSnake(
         snakePos,
         copy(snakeMoveDirection), 
         initialBodyPartsNbr, 
         initialMovePeriod);
 }
-
 
 function resetSnake(snake, snakePos){
     snake.reset(
@@ -28,23 +27,20 @@ function resetSnake(snake, snakePos){
 
 
 class Game{
-    constructor(snake1Pos, snake2Pos, xCellsNbr, yCellsNbr, opponentsPositions){
-        this._snake1Pos = snake1Pos;
-        this._snake2Pos = snake2Pos;
-        this._snake1 = getInitialSnake(snake1Pos);
-        this._snake2 = getInitialSnake(snake2Pos);
-        this._opponentsPositions = opponentsPositions;
-        this._opponentsNbr = opponentsPositions.length;
+    constructor(xCellsNbr, yCellsNbr, levels){
+        this._snake1 = getPlayerSnake(levels[0].snake1Pos);
+        this._snake2 = getPlayerSnake(levels[0].snake2Pos);
         this._xCellsNbr = xCellsNbr;
         this._yCellsNbr = yCellsNbr;
         this._cellsNbr = xCellsNbr * yCellsNbr;
         this._malus = [];
         this._tick = 0;
         this._opponents = [];
-        this._opponentsPositions.forEach(opponentPosition => {
-            this.addOpponent(opponentPosition);
-        });
-        this.initFoodPos();
+        this._getOpponents = getOpponents;
+        this._level_cnt = 0;
+        this._levels = levels;
+        this._sleepingOpponents = levels[0].generateOpponents();
+        this.resetFoodPos();
     }
 
     get snake1(){
@@ -67,19 +63,19 @@ class Game{
         return this._opponents;
     }
 
-    resetGame(){
+    restartLevel(){
         this._malus = [];
         this._tick = 0;
         this._opponents = [];
-        this._opponentsPositions.forEach(opponentPosition => {
-            this.addOpponent(opponentPosition);
-        });
-        resetSnake(this._snake1, this._snake1Pos);
-        resetSnake(this._snake2, this._snake2Pos);
+        let currentLvl = this._levels[this._level_cnt];
+        this._sleepingOpponents = currentLvl.generateOpponents();
+        resetSnake(this._snake1, currentLvl.snake1Pos);
+        resetSnake(this._snake2, currentLvl.snake2Pos);
+        this.resetFoodPos();
     }
 
     moveSnake(snake){
-        if(this._tick % snake.nextMovePeriod != 0)
+        if(snake.nextMovePeriod != 1 && this._tick % snake.nextMovePeriod != 0)
             return;
         let nextPos = add(snake.move, snake.headPos);
         if(nextPos.x < 0)
@@ -102,7 +98,7 @@ class Game{
             return true;
         if(this._snake1.isColliding(this._snake2.headPos))
             return true;
-        for(let i = this._opponentsNbr - 1; i >= 0; i--){
+        for(let i = this._opponents.length - 1; i >= 0; i--){
             if(this._snake1.areSnakeColliding(this._opponents[i]))
                 return true;
             if(this._snake2.areSnakeColliding(this._opponents[i]))
@@ -111,7 +107,18 @@ class Game{
         return false;
     }
 
+    wakeSleepingOpponents(){
+        for(let i = this._sleepingOpponents.length - 1; i >= 0; i--){
+            let opponent = this._sleepingOpponents[i];
+            if(opponent.birthTick == this._tick){
+                this._opponents.push(opponent)
+                this._sleepingOpponents.pop(opponent)
+            }
+        } 
+    }
+
     playTick(){
+        this.wakeSleepingOpponents()
         this.moveSnake(this._snake1);
         this.moveSnake(this._snake2);
         this._opponents.forEach(opponent => {
@@ -137,13 +144,24 @@ class Game{
             this._snake2.malus.push(malus);
             this._food2Pos = this.getFoodPos(this._food1Pos)
         }
-        if(this.collisionDetected()){
+
+        if(this.collisionDetected())
             this.loosing();
+        else if (this.isCurrentLevelCompleted()){
+            this._level_cnt++;
+            this.restartLevel()
         }
-        this.malusNextTick();
-        this._snake1.removeExpiredMalus();
-        this._snake2.removeExpiredMalus();
-        this._tick++;
+        else{
+            this.malusNextTick();
+            this._snake1.removeExpiredMalus();
+            this._snake2.removeExpiredMalus();
+            this._tick++;
+        }
+    }
+
+    isCurrentLevelCompleted(){
+        return this._snake1.bodyParts.length >= this._levels[this._level_cnt].snake1TargetScore && 
+            this._snake2.bodyParts.length >= this._levels[this._level_cnt].snake2TargetScore;
     }
 
     malusNextTick() {
@@ -156,14 +174,14 @@ class Game{
     }
 
     loosing(){
-        this.resetGame();
+        this.restartLevel();
     }
 
     addOpponent(position){
-        this._opponents.push(getInitialSnake(position));
+        this._opponents.push(getIASnake(position));
     }
 
-    initFoodPos(){
+    resetFoodPos(){
         this._food1Pos = this.getFoodPos(null);
         this._food2Pos = this.getFoodPos(this._food1Pos);
     }

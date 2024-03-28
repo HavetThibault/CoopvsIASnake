@@ -11,13 +11,13 @@ class Snake {
         this._nextMovePeriod = nextMovePeriod;
         this._processedMoveDirection = true;
     }
+    
+    get move(){
+        return this._move;
+    }
 
     get headPos(){
         return this._headPos;
-    }
-
-    get move(){
-        return this._move;
     }
 
     get nextMovePeriod(){
@@ -32,7 +32,7 @@ class Snake {
         return this._malus;
     }
 
-    setMoveDirection(move){
+    setMove(move){
         if(this._processedMoveDirection){
             this._malus.forEach(malus => {
                 move = malus.getMoveDirection(this, move);

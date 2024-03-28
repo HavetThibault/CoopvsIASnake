@@ -25,22 +25,22 @@ function processSnakeController(mouseEvent, snake, left, right, up, down){
     if (mouseEvent.which == left) {
         direction.x = -stepNbr;
         direction.y = 0;
-        snake.setMoveDirection(direction);
+        snake.setMove(direction);
     }
     else if (mouseEvent.which == right) {
         direction.x = stepNbr;
         direction.y = 0;
-        snake.setMoveDirection(direction);
+        snake.setMove(direction);
     }
     else if (mouseEvent.which == up) {
         direction.x = 0;
         direction.y = -stepNbr;
-        snake.setMoveDirection(direction);
+        snake.setMove(direction);
     }
     else if (mouseEvent.which == down) {
         direction.x = 0;
         direction.y = stepNbr;
-        snake.setMoveDirection(direction);
+        snake.setMove(direction);
     }
 }
 
