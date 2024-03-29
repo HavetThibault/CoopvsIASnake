@@ -25,7 +25,6 @@ const score2Label = document.getElementById('score2Label');
 const gameAnimator = new GameAnimator(canvas, score1Label, score2Label);
 const game = new Game(xCellNbr, yCellNbr, levels, gameAnimator);
 const gameRenderer = new GameRenderer(context, canvas.width, canvas.height, cellWidth, cellHeight);
-const gameAnimator = new OutsideGameAnimator();
 
 // Game loop
 function loop() {

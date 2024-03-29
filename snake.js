@@ -32,6 +32,10 @@ class Snake {
         return this._malus;
     }
 
+    clearMalus(){
+        this._malus = []
+    }
+
     setMove(move){
         if(this._processedMoveDirection){
             this._malus.forEach(malus => {
@@ -44,14 +48,14 @@ class Snake {
         }
     }
     
-    reset(initialPos, moveDirection, bodyPartsNbr, nextMovePeriod){
+    reset(initialPos, moveDirection, bodyPartsNbr, speed){
         this._headPos = initialPos;
         this._move = moveDirection;
         this._bodyPartsNbr = bodyPartsNbr;
         this._bodyParts = [];
         this._bodyParts.push(initialPos);
         this._malus = []
-        this._nextMovePeriod = nextMovePeriod;
+        this._nextMovePeriod = speed;
     }
 
     get bodyPartsNbr(){

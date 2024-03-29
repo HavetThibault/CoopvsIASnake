@@ -4,25 +4,16 @@ import {getRandomInt} from './helper.js';
 import {InvertCtrlMalus} from './invert_ctrl_malus.js'
 
 
-const snakeMoveDirection = new Point(1, 0)
-const initialMovePeriod = 3;
-const initialBodyPartsNbr = 8;
+const initialBodyPartsNbr = 2;
 const invertCtrlMalusDuration = 200;
 
-function getPlayerSnake(snakePos){
-    return new PlayerSnake(
-        snakePos,
-        copy(snakeMoveDirection), 
-        initialBodyPartsNbr, 
-        initialMovePeriod);
-}
-
-function resetSnake(snake, snakePos){
+function resetSnake(snake, snakePos, move, speed){
+    snake.clearMalus();
     snake.reset(
         snakePos, 
-        copy(snakeMoveDirection), 
+        copy(move), 
         initialBodyPartsNbr, 
-        initialMovePeriod);
+        speed);
 }
 
 function getSnakeScore(snake) {
@@ -32,8 +23,16 @@ function getSnakeScore(snake) {
 
 class Game{
     constructor(xCellsNbr, yCellsNbr, levels, gameAnimator) {
-        this._snake1 = getPlayerSnake(levels[0].snake1Pos);
-        this._snake2 = getPlayerSnake(levels[0].snake2Pos);
+        this._snake1 = new PlayerSnake(
+            levels[0].snake1Pos,
+            copy(levels[0].snake1Move), 
+            initialBodyPartsNbr, 
+            levels[0].snake1Speed);
+        this._snake2 = new PlayerSnake(
+            levels[0].snake2Pos,
+            copy(levels[0].snake2Move), 
+            initialBodyPartsNbr, 
+            levels[0].snake2Speed);
         this._gameAnimator = gameAnimator;
         this._xCellsNbr = xCellsNbr;
         this._yCellsNbr = yCellsNbr;
@@ -41,7 +40,6 @@ class Game{
         this._malus = [];
         this._tick = 0;
         this._opponents = [];
-        this._getOpponents = getOpponents;
         this._level_cnt = 0;
         this._levels = levels;
         this._sleepingOpponents = levels[0].generateOpponents();
@@ -76,10 +74,10 @@ class Game{
         this._malus = [];
         this._tick = 0;
         this._opponents = [];
-        let currentLvl = this.currentLvl();
+        let currentLvl = this.currentLvl;
         this._sleepingOpponents = currentLvl.generateOpponents();
-        resetSnake(this._snake1, currentLvl.snake1Pos);
-        resetSnake(this._snake2, currentLvl.snake2Pos);
+        resetSnake(this._snake1, currentLvl.snake1Pos, currentLvl.snake1Move, currentLvl.snake1Speed);
+        resetSnake(this._snake2, currentLvl.snake2Pos, currentLvl.snake2Move, currentLvl.snake2Speed);
         this.updateSnake1Score();
         this.updateSnake2Score();
         this.resetFoodPos();
@@ -181,7 +179,7 @@ class Game{
     }
 
     isCurrentLevelCompleted() {
-        let currentLvl = this.currentLvl()
+        let currentLvl = this.currentLvl
         return getSnakeScore(this._snake1) >= currentLvl.snake1TargetScore && 
             getSnakeScore(this._snake2) >= currentLvl.snake2TargetScore;
     }

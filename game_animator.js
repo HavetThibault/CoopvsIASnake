@@ -20,11 +20,11 @@ class GameAnimator {
     }
 
     loosingAnimation() {
-        this._gameCanvas.animationStart({ name: 'tada' });
+        //this._gameCanvas.animationStart({ name: 'tada' });
     }
 
     winningAnimation() {
-        this._gameCanvas.animationStart({ name: 'tada' });
+        //this._gameCanvas.animationStart({ name: 'tada' });
     }
 
     showGift() {
@@ -34,7 +34,7 @@ class GameAnimator {
 
 export { GameAnimator };
 
-// Pour générer html depuis js, très instructif
+// Pour generer html depuis js, tres instructif
 // https://dev.to/dcodeyt/3-easy-ways-to-generate-html-with-javascript-3b1j
 
 // Tada animation

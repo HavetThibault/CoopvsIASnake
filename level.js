@@ -1,5 +1,6 @@
 import { Point, copy, add } from './point.js';
 import { IASnake } from './IA_snake.js'
+import { LoopSnakeIA } from './loop_snake_IA.js'
 
 class Level{
     constructor(snake1Pos, snake1Move, snake1Speed, snake1TargetScore, snake2Pos,
@@ -41,10 +42,6 @@ class Level{
         return this._snake2Speed;
     }
 
-    get generateOpponents(){
-        return this._generateOpponents(this._xCellsNbr, this._yCellsNbr)
-    }
-
     get snake1TargetScore(){
         return this._snake1TargetScore
     }
@@ -52,14 +49,25 @@ class Level{
     get snake2TargetScore(){
         return this._snake2TargetScore
     }
+
+    generateOpponents(){
+        return this._generateOpponents(this._xCellsNbr, this._yCellsNbr)
+    }
 }
 
-const lvl1Speed = 5;
+const lvl1Speed = 7;
 const lvl2Speed = lvl1Speed;
 const lvl3Speed = lvl2Speed - 1;
-const lvl4Speed = lvl3Speed;
-const lvl5Speed = lvl4Speed - 1;
-const lvl6Speed = lvl5Speed - 1;
+
+const lvl1Snake1TargetScore = 1;
+const lvl1Snake2TargetScore = 1;
+const lvl2Snake1TargetScore = 1;
+const lvl2Snake2TargetScore = 1;
+const lvl3Snake1TargetScore = 2;
+const lvl3Snake2TargetScore = 2;
+
+const lvl2OpponentSpeed = 15;
+const lvl3OpponentSpeed = 15;
 
 function lvl1Opponents(xCellsNbr, yCellsNbr) {
     return [];
@@ -70,12 +78,14 @@ function getLvl1(xCellsNbr, yCellsNbr) {
         new Point(Math.round(0.2 * xCellsNbr), Math.round(0.2 * yCellsNbr) + 1),
         new Point(1, 0),
         lvl1Speed,
-        5,
+        lvl1Snake1TargetScore,
         new Point(Math.round(0.8 * xCellsNbr), Math.round(0.2 * yCellsNbr)),
         new Point(-1, 0),
-        5,
         lvl1Speed,
-        lvl1Opponents
+        lvl1Snake2TargetScore,
+        lvl1Opponents,
+        xCellsNbr,
+        yCellsNbr
     )
 }
 
@@ -95,27 +105,25 @@ function stepSnakes(startPos, width, length, speed, move1, move2, movePeriod, bi
 }
 
 function lvl2Opponents(xCellsNbr, yCellsNbr) {
-    return
-        stepSnakes(
-            new Point(Math.round(0.5 * xCellsNbr), Math.round(0.5 * yCellsNbr) + 1),
+    return stepSnakes(
+            new Point(Number(0.5 * xCellsNbr), Number(0.5 * yCellsNbr) + 1),
             2,
             10,
             5,
             new Point(0, 1),
             new Point(1, 0),
-            4,
+            lvl2OpponentSpeed,
             1)
         .concat(
             stepSnakes(
-                new Point(Math.round(0.5 * xCellsNbr), Math.round(0.5 * yCellsNbr) + 1),
+                new Point(Number(Math.round(0.5 * xCellsNbr)), Number(Math.round(0.5 * yCellsNbr)) + 1),
                 2,
                 10,
                 5,
                 new Point(0, 1),
                 new Point(-1, 0),
-                4,
-                1)
-    );
+                lvl2OpponentSpeed,
+                1));
 }
 
 function getLvl2(xCellsNbr, yCellsNbr) {
@@ -123,12 +131,14 @@ function getLvl2(xCellsNbr, yCellsNbr) {
         new Point(Math.round(0.2 * xCellsNbr), Math.round(0.2 * yCellsNbr) + 1),
         new Point(1, 0),
         lvl2Speed,
-        5,
+        lvl2Snake1TargetScore,
         new Point(Math.round(0.8 * xCellsNbr), Math.round(0.2 * yCellsNbr)),
         new Point(-1, 0),
-        5,
         lvl2Speed,
-        lvl2Opponents
+        lvl2Snake2TargetScore,
+        lvl2Opponents,
+        xCellsNbr,
+        yCellsNbr
     )
 }
 
@@ -142,8 +152,8 @@ function lvl3Opponents(xCellsNbr, yCellsNbr) {
                 5,
                 new Point(0, -1),
                 new Point(1, 0),
-                4,
-                1))
+                lvl3OpponentSpeed,
+                0))
         .concat(
             stepSnakes(
                 new Point(Math.round(0.5 * xCellsNbr), Math.round(0.5 * yCellsNbr) + 1),
@@ -152,8 +162,8 @@ function lvl3Opponents(xCellsNbr, yCellsNbr) {
                 5,
                 new Point(0, -1),
                 new Point(-1, 0),
-                4,
-                1)
+                lvl3OpponentSpeed,
+                0)
         );
 }
 
@@ -161,13 +171,15 @@ function getLvl3(xCellsNbr, yCellsNbr) {
     return new Level(
         new Point(Math.round(0.2 * xCellsNbr), Math.round(0.2 * yCellsNbr) + 1),
         new Point(1, 0),
-        lvl2Speed,
-        5,
+        lvl3Speed,
+        lvl3Snake1TargetScore,
         new Point(Math.round(0.8 * xCellsNbr), Math.round(0.2 * yCellsNbr)),
         new Point(-1, 0),
-        5,
         lvl3Speed,
-        lvl3Opponents
+        lvl3Snake2TargetScore,
+        lvl3Opponents,
+        xCellsNbr,
+        yCellsNbr
     )
 }
 
