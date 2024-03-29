@@ -1,43 +1,31 @@
 import {Game} from './game.js';
 import {linkSnakeControllers} from './snake_controllers.js';
 import {GameRenderer} from './game_renderer.js';
-import {IASnake} from './IA_snake.js'; 
-import {LoopSnakeIA} from './loop_snake_IA.js';
-import {Point, copy} from './point.js'; 
+import { getLvl1, getLvl2, getLvl3 } from './level.js';
+import { GameAnimator } from './game_animator.js';
 
 
-const opponentInitMove = new Point(1, 0)
 const cellWidth = 20;
 const cellHeight = 20;
-const snake1Pos = new Point(15, 5);
-const snake2Pos = new Point(5, 5);
-const getOpponentsFunc = function getOpponents(){
-    return [
-        new IASnake(
-            new Point(15, 15),
-            copy(opponentInitMove), 
-            10, 
-            6,
-            new LoopSnakeIA([[new Point(0, 1), 3], [new Point(1, 0), 4]]),
-            1),
-        new IASnake(
-            new Point(16, 16),
-            copy(opponentInitMove), 
-            10, 
-            6,
-            new LoopSnakeIA([[new Point(0, 1), 3], [new Point(1, 0), 4]]),
-            1)
-    ];
-}
 
-var canvas = document.getElementById('game');
-var context = canvas.getContext('2d');
+const canvas = document.getElementById('game');
+const context = canvas.getContext('2d');
 
 const xCellNbr = canvas.width / cellWidth;
 const yCellNbr = canvas.height / cellHeight;
 
-var game = new Game(snake1Pos, snake2Pos, xCellNbr, yCellNbr, getOpponentsFunc);
-var gameRenderer = new GameRenderer(context, canvas.width, canvas.height, cellWidth, cellHeight);
+let levels = [
+    getLvl1(xCellNbr, yCellNbr),
+    getLvl2(xCellNbr, yCellNbr),
+    getLvl3(xCellNbr, yCellNbr),
+]
+
+const score1Label = document.getElementById('score1Label');
+const score2Label = document.getElementById('score2Label');
+const gameAnimator = new GameAnimator(canvas, score1Label, score2Label);
+const game = new Game(xCellNbr, yCellNbr, levels, gameAnimator);
+const gameRenderer = new GameRenderer(context, canvas.width, canvas.height, cellWidth, cellHeight);
+const gameAnimator = new OutsideGameAnimator();
 
 // Game loop
 function loop() {

@@ -25,11 +25,16 @@ function resetSnake(snake, snakePos){
         initialMovePeriod);
 }
 
+function getSnakeScore(snake) {
+    return snake.bodyParts.length;
+}
+
 
 class Game{
-    constructor(xCellsNbr, yCellsNbr, levels){
+    constructor(xCellsNbr, yCellsNbr, levels, gameAnimator) {
         this._snake1 = getPlayerSnake(levels[0].snake1Pos);
         this._snake2 = getPlayerSnake(levels[0].snake2Pos);
+        this._gameAnimator = gameAnimator;
         this._xCellsNbr = xCellsNbr;
         this._yCellsNbr = yCellsNbr;
         this._cellsNbr = xCellsNbr * yCellsNbr;
@@ -63,15 +68,29 @@ class Game{
         return this._opponents;
     }
 
+    get currentLvl() {
+        return this._levels[this._level_cnt];
+    }
+
     restartLevel(){
         this._malus = [];
         this._tick = 0;
         this._opponents = [];
-        let currentLvl = this._levels[this._level_cnt];
+        let currentLvl = this.currentLvl();
         this._sleepingOpponents = currentLvl.generateOpponents();
         resetSnake(this._snake1, currentLvl.snake1Pos);
         resetSnake(this._snake2, currentLvl.snake2Pos);
+        this.updateSnake1Score();
+        this.updateSnake2Score();
         this.resetFoodPos();
+    }
+
+    updateSnake1Score() {
+        this._gameAnimator.displaySnakeScore1(getSnakeScore(this._snake1), this.currentLvl.snake1TargetScore);
+    }
+
+    updateSnake2Score() {
+        this._gameAnimator.displaySnakeScore2(getSnakeScore(this._snake2), this.currentLvl.snake2TargetScore);
     }
 
     moveSnake(snake){
@@ -94,9 +113,9 @@ class Game{
             return true;
         if(this._snake2.isBittingItself())
             return true;
-        if(this._snake2.isColliding(this._snake1.headPos))
+        if (this._snake1.isColliding(this._snake2.headPos))
             return true;
-        if(this._snake1.isColliding(this._snake2.headPos))
+        if(this._snake2.isColliding(this._snake1.headPos))
             return true;
         for(let i = this._opponents.length - 1; i >= 0; i--){
             if(this._snake1.areSnakeColliding(this._opponents[i]))
@@ -124,8 +143,10 @@ class Game{
         this._opponents.forEach(opponent => {
             this.moveSnake(opponent);
         });
+
         if(equals(this._snake1.headPos, this._food1Pos)){
             this._snake1._bodyPartsNbr++;
+            this.updateSnake1Score();
             this._food1Pos = this.getFoodPos(this._food2Pos);
         }
         else if (equals(this._snake2.headPos, this._food1Pos)){
@@ -134,8 +155,10 @@ class Game{
             this._snake1.malus.push(malus);
             this._food1Pos = this.getFoodPos(this._food2Pos);
         }
+
         if(equals(this._snake2.headPos, this._food2Pos)){
             this._snake2._bodyPartsNbr++;
+            this.updateSnake2Score();
             this._food2Pos = this.getFoodPos(this._food1Pos)
         }
         else if (equals(this._snake1.headPos, this._food2Pos)){
@@ -147,11 +170,9 @@ class Game{
 
         if(this.collisionDetected())
             this.loosing();
-        else if (this.isCurrentLevelCompleted()){
-            this._level_cnt++;
-            this.restartLevel()
-        }
-        else{
+        else if (this.isCurrentLevelCompleted())
+            this.winning();
+        else {
             this.malusNextTick();
             this._snake1.removeExpiredMalus();
             this._snake2.removeExpiredMalus();
@@ -159,9 +180,10 @@ class Game{
         }
     }
 
-    isCurrentLevelCompleted(){
-        return this._snake1.bodyParts.length >= this._levels[this._level_cnt].snake1TargetScore && 
-            this._snake2.bodyParts.length >= this._levels[this._level_cnt].snake2TargetScore;
+    isCurrentLevelCompleted() {
+        let currentLvl = this.currentLvl()
+        return getSnakeScore(this._snake1) >= currentLvl.snake1TargetScore && 
+            getSnakeScore(this._snake2) >= currentLvl.snake2TargetScore;
     }
 
     malusNextTick() {
@@ -173,12 +195,19 @@ class Game{
         }
     }
 
-    loosing(){
+    loosing() {
+        this._gameAnimator.loosingAnimation();
         this.restartLevel();
     }
 
-    addOpponent(position){
-        this._opponents.push(getIASnake(position));
+    winning() {
+        this._level_cnt++;
+        this._gameAnimator.winningAnimation();
+        if (this._level_cnt == this._levels.length) {
+            this._gameAnimator.showGift();
+            this._level_cnt--;
+        }
+        this.restartLevel();
     }
 
     resetFoodPos(){
@@ -217,4 +246,4 @@ class Game{
     }
 }
 
-export {Game};
+export {Game, getSnakeScore};
