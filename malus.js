@@ -1,7 +1,12 @@
 
 class Malus {
     constructor(tickDuration){
+        this._initTickDuration = tickDuration;
         this._tickDuration = tickDuration;
+    }
+
+    get initTickDuration(){
+        return this._initTickDuration;
     }
 
     get tickDuration(){

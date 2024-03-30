@@ -17,7 +17,7 @@ function resetSnake(snake, snakePos, move, speed){
 }
 
 function getSnakeScore(snake) {
-    return snake.bodyParts.length;
+    return snake.bodyPartsNbr;
 }
 
 
@@ -44,6 +44,8 @@ class Game{
         this._levels = levels;
         this._sleepingOpponents = levels[0].generateOpponents();
         this.resetFoodPos();
+        this.updateSnake1Score();
+        this.updateSnake2Score();
     }
 
     get snake1(){
@@ -151,6 +153,8 @@ class Game{
             let malus = new InvertCtrlMalus(invertCtrlMalusDuration);
             this._malus.push(malus);
             this._snake1.malus.push(malus);
+            this._snake2._bodyPartsNbr++;
+            this.updateSnake2Score();
             this._food1Pos = this.getFoodPos(this._food2Pos);
         }
 
@@ -163,6 +167,8 @@ class Game{
             let malus = new InvertCtrlMalus(invertCtrlMalusDuration);
             this._malus.push(malus);
             this._snake2.malus.push(malus);
+            this._snake1._bodyPartsNbr++;
+            this.updateSnake1Score();
             this._food2Pos = this.getFoodPos(this._food1Pos)
         }
 
@@ -194,13 +200,11 @@ class Game{
     }
 
     loosing() {
-        this._gameAnimator.loosingAnimation();
         this.restartLevel();
     }
 
     winning() {
         this._level_cnt++;
-        this._gameAnimator.winningAnimation();
         if (this._level_cnt == this._levels.length) {
             this._gameAnimator.showGift();
             this._level_cnt--;

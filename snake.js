@@ -12,6 +12,10 @@ class Snake {
         this._processedMoveDirection = true;
     }
     
+    get bodyPartsNbr(){
+        return this._bodyPartsNbr;
+    }
+    
     get move(){
         return this._move;
     }
@@ -65,7 +69,7 @@ class Snake {
     nextMove(nextHeadPos){
         this._headPos = nextHeadPos;
         this._bodyParts.unshift(nextHeadPos);
-        if(this._bodyParts.length == this._bodyPartsNbr)
+        if(this._bodyParts.length > this._bodyPartsNbr)
             this._bodyParts.pop();
         this._processedMoveDirection = true;
     }

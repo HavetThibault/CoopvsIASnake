@@ -19,14 +19,6 @@ class GameAnimator {
         scoreLabel.innerHTML = newLabelText;
     }
 
-    loosingAnimation() {
-        //this._gameCanvas.animationStart({ name: 'tada' });
-    }
-
-    winningAnimation() {
-        //this._gameCanvas.animationStart({ name: 'tada' });
-    }
-
     showGift() {
 
     }

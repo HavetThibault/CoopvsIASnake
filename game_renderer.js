@@ -1,5 +1,6 @@
 const red1Color = '#ff0099'
 const blue1Color = '#9900ff'
+const blue2Color = '#0000ff'
 const green1Color = '#99dd00'
 
 class GameRenderer{
@@ -28,12 +29,32 @@ class GameRenderer{
         this.context.fillStyle = color;
         // drawing 1 px smaller than the grid creates a grid 
         // effect in the snake body so you can see how long it is
-        for (let i = snake.bodyParts.length - 1; i >= 0; i--) {
+        snake.bodyParts.forEach( bodyPart => {
             this.context.fillRect(
-                snake.bodyParts[i].x * this.cellWidth, 
-                snake.bodyParts[i].y * this.cellHeight, 
+                bodyPart.x * this.cellWidth, 
+                bodyPart.y * this.cellHeight, 
                 this.cellWidth-1,
                 this.cellHeight-1);
+        })
+
+        if(snake.malus.length > 0){
+            let longestMalus = snake.malus[0];
+            snake.malus.forEach(malus => {
+                if(malus.tickDuration > longestMalus.tickDuration){
+                    longestMalus = malus;
+                }
+            })
+            let malusDurationProgress = longestMalus.tickDuration / longestMalus.initTickDuration;
+            let cellWidth = Number((this.cellWidth-4) * malusDurationProgress);
+            let cellHeight = Number((this.cellHeight-4) * malusDurationProgress);
+            this.context.fillStyle = blue2Color;
+            snake.bodyParts.forEach( bodyPart => {
+                this.context.fillRect(
+                    bodyPart.x * this.cellWidth, 
+                    bodyPart.y * this.cellHeight, 
+                    cellWidth,
+                    cellHeight);
+            })
         }
     }
 

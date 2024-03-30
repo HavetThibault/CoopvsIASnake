@@ -59,12 +59,12 @@ const lvl1Speed = 7;
 const lvl2Speed = lvl1Speed;
 const lvl3Speed = lvl2Speed - 1;
 
-const lvl1Snake1TargetScore = 1;
-const lvl1Snake2TargetScore = 1;
-const lvl2Snake1TargetScore = 1;
-const lvl2Snake2TargetScore = 1;
-const lvl3Snake1TargetScore = 2;
-const lvl3Snake2TargetScore = 2;
+const lvl1Snake1TargetScore = 3;
+const lvl1Snake2TargetScore = 3;
+const lvl2Snake1TargetScore = 3;
+const lvl2Snake2TargetScore = 3;
+const lvl3Snake1TargetScore = 3;
+const lvl3Snake2TargetScore = 3;
 
 const lvl2OpponentSpeed = 15;
 const lvl3OpponentSpeed = 15;
