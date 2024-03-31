@@ -1,4 +1,4 @@
-import {equals, copy} from './point.js';
+import {copy} from './point.js';
 import {Snake} from './snake.js'
 
 class PlayerSnake extends Snake{

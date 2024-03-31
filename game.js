@@ -12,7 +12,7 @@ function resetSnake(snake, snakePos, move, speed){
     snake.reset(
         snakePos, 
         copy(move), 
-        initialBodyPartsNbr, 
+        initialBodyPartsNbr,
         speed);
 }
 
@@ -22,7 +22,7 @@ function getSnakeScore(snake) {
 
 
 class Game{
-    constructor(xCellsNbr, yCellsNbr, levels, gameAnimator) {
+    constructor(xCellsNbr, yCellsNbr, levels, gameAnimator, snakeSpeedCtrl) {
         this._snake1 = new PlayerSnake(
             levels[0].snake1Pos,
             copy(levels[0].snake1Move), 
@@ -43,6 +43,7 @@ class Game{
         this._level_cnt = 0;
         this._levels = levels;
         this._sleepingOpponents = levels[0].generateOpponents();
+        this._snakeSpeedCtrl = snakeSpeedCtrl;
         this.resetFoodPos();
         this.updateSnake1Score();
         this.updateSnake2Score();
@@ -136,8 +137,15 @@ class Game{
         } 
     }
 
+    updatePlayerSnakesSpeed(){
+        let currentLvl = this.currentLvl;
+        this._snake1.movePeriod = Math.max(1, Math.round(this._snakeSpeedCtrl.snake1SpeedRatio * currentLvl.snake1Speed) * 2);
+        this._snake2.movePeriod = Math.max(1, Math.round(this._snakeSpeedCtrl.snake2SpeedRatio * currentLvl.snake2Speed) * 2);
+    }
+
     playTick(){
-        this.wakeSleepingOpponents()
+        this.updatePlayerSnakesSpeed();
+        this.wakeSleepingOpponents();
         this.moveSnake(this._snake1);
         this.moveSnake(this._snake2);
         this._opponents.forEach(opponent => {

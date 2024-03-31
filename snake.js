@@ -28,6 +28,10 @@ class Snake {
         return this._movePeriod;
     }
 
+    set movePeriod(value){
+        this._movePeriod = value;
+    }
+
     get bodyParts(){
         return this._bodyParts;
     }

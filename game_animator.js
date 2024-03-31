@@ -1,9 +1,10 @@
 
 class GameAnimator {
-    constructor(gameCanvas, snake1LabelScore, snake2LabelScore) {
+    constructor(gameCanvas, snake1LabelScore, snake2LabelScore, giftImg) {
         this._snake1LabelScore = snake1LabelScore;
         this._snake2LabelScore = snake2LabelScore;
         this._gameCanvas = gameCanvas;
+        this._giftImg = giftImg;
     }
 
     displaySnakeScore1(score, target) {
@@ -20,7 +21,7 @@ class GameAnimator {
     }
 
     showGift() {
-
+        this._giftImg.src = './ressources/baiseur_approuved.png'
     }
 }
 

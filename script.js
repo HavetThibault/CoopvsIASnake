@@ -3,6 +3,7 @@ import {linkSnakeControllers} from './snake_controllers.js';
 import {GameRenderer} from './game_renderer.js';
 import { getLvl1, getLvl2, getLvl3, getLvl4, getLvl5 } from './game_levels.js';
 import { GameAnimator } from './game_animator.js';
+import { SnakeSpeedController } from './snake_speed_controllers.js';
 
 
 const cellWidth = 20;
@@ -24,8 +25,12 @@ let levels = [
 
 const score1Label = document.getElementById('score1Label');
 const score2Label = document.getElementById('score2Label');
-const gameAnimator = new GameAnimator(canvas, score1Label, score2Label);
-const game = new Game(xCellNbr, yCellNbr, levels, gameAnimator);
+const snake1SpeedSlider = document.getElementById('fushiaSnakeSpeed');
+const snake2SpeedSlider = document.getElementById('greenSnakeSpeed');
+const giftImg = document.getElementById('giftImg'); 
+const gameAnimator = new GameAnimator(canvas, score1Label, score2Label, giftImg);
+const snakeSpeedCtrl = new SnakeSpeedController(snake1SpeedSlider, snake2SpeedSlider);
+const game = new Game(xCellNbr, yCellNbr, levels, gameAnimator, snakeSpeedCtrl);
 const gameRenderer = new GameRenderer(context, canvas.width, canvas.height, cellWidth, cellHeight);
 
 // Game loop

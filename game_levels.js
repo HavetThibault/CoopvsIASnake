@@ -35,21 +35,21 @@ function waveSnakes(startPos, width, length, speed, move1, move2, move3, move4, 
 }
 
 const lvl1Speed = 8;
-const lvl2Speed = lvl1Speed;
-const lvl3Speed = lvl2Speed - 1;
-const lvl4Speed = lvl3Speed - 1;
-const lvl5Speed = lvl4Speed - 1;
+const lvl2Speed = 8;
+const lvl3Speed = 8;
+const lvl4Speed = 8;
+const lvl5Speed = 8;
 
-const lvl1Snake1TargetScore = 2;
-const lvl1Snake2TargetScore = 2;
-const lvl2Snake1TargetScore = 2;
-const lvl2Snake2TargetScore = 2;
-const lvl3Snake1TargetScore = 2;
-const lvl3Snake2TargetScore = 2;
-const lvl4Snake1TargetScore = 2;
-const lvl4Snake2TargetScore = 2;
-const lvl5Snake1TargetScore = 3;
-const lvl5Snake2TargetScore = 3;
+const lvl1Snake1TargetScore = 6;
+const lvl1Snake2TargetScore = 6;
+const lvl2Snake1TargetScore = 5;
+const lvl2Snake2TargetScore = 5;
+const lvl3Snake1TargetScore = 5;
+const lvl3Snake2TargetScore = 5;
+const lvl4Snake1TargetScore = 4;
+const lvl4Snake2TargetScore = 4;
+const lvl5Snake1TargetScore = 4;
+const lvl5Snake2TargetScore = 4;
 
 const lvl2OpponentSpeed = 13;
 const lvl3OpponentSpeed = 12;

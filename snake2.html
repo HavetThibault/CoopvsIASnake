@@ -3,20 +3,36 @@
 <head>
   <title></title>
   <style>
-  html, body {
-    height: 100%;
-    margin: 0;
-  }
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
 
-  body {
-    background: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  canvas {
-    border: 1px solid white;
-  }
+    body {
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    canvas {
+      border: 1px solid white;
+    }
+
+    /* #greenSnakeSpeed {
+      /* Change background color of the track 
+      background-color: green;
+    } */
+
+    #fushiaSnakeSpeed::-webkit-slider-thumb {
+        /* Change background color of the thumb button */
+        background-color: rgb(255, 0, 153);
+    }
+
+    #greenSnakeSpeed::-webkit-slider-thumb {
+        /* Change background color of the thumb button */
+        background-color: rgb(153, 221, 0);
+    }
+
   </style>
   <link rel="stylesheet" href="./bootstrap-5.0.2-dist/css/bootstrap.min.css"/>
   <title>Mini-jeu - Annif de Clément et Marie</title>
@@ -27,7 +43,25 @@
         <p id="score1Label" class="col text-center text-white fs-2 form-label mt-3" data-mdb-animation-start="manually">Hahaha</p>
         <p id="score2Label" class="col text-center text-white fs-2 form-label mt-3" data-mdb-animation-start="manually">Hihihi</p>
       </div>
-      <canvas class="border border-secondary" width="1000" height="800" id="game" data-mdb-animation-start="manually"></canvas>
+      <div class="row">
+        <div class="col center">
+          <canvas class="border border-secondary" width="1000" height="800" id="game" data-mdb-animation-start="manually"></canvas>
+        </div>
+        <div class="col">
+          <img id="giftImg" src=""/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col-5">
+          <input id="fushiaSnakeSpeed" class="form-range" type="range" min="0" max="100">
+        </div>
+        <div class="col-1"></div>
+        <div class="col-5">
+          <input id="greenSnakeSpeed" class="form-range" type="range" min="0" max="100">
+        </div>
+        <div class="col"></div>
+      </div>
     </div>
   <script src="./script.js", type="module"></script>
 </body>
