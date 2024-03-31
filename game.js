@@ -94,7 +94,7 @@ class Game{
     }
 
     moveSnake(snake){
-        if(snake.nextMovePeriod != 1 && this._tick % snake.nextMovePeriod != 0)
+        if(snake.movePeriod != 1 && this._tick % snake.movePeriod != 0)
             return;
         let nextPos = add(snake.move, snake.headPos);
         if(nextPos.x < 0)

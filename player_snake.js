@@ -9,7 +9,7 @@ class PlayerSnake extends Snake{
         this._bodyParts = [];
         this._bodyParts.push(initialPos);
         this._malus = []
-        this._nextMovePeriod = nextMovePeriod;
+        this._movePeriod = nextMovePeriod;
         this._processedMoveDirection = true;
     }
 

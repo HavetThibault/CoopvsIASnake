@@ -8,7 +8,7 @@ class Snake {
         this._bodyParts = [];
         this._bodyParts.push(initialPos);
         this._malus = []
-        this._nextMovePeriod = nextMovePeriod;
+        this._movePeriod = nextMovePeriod;
         this._processedMoveDirection = true;
     }
     
@@ -24,8 +24,8 @@ class Snake {
         return this._headPos;
     }
 
-    get nextMovePeriod(){
-        return this._nextMovePeriod;
+    get movePeriod(){
+        return this._movePeriod;
     }
 
     get bodyParts(){
@@ -34,6 +34,10 @@ class Snake {
 
     get malus(){
         return this._malus;
+    }
+
+    get bodyPartsNbr(){
+        return this._bodyPartsNbr;
     }
 
     clearMalus(){
@@ -59,11 +63,7 @@ class Snake {
         this._bodyParts = [];
         this._bodyParts.push(initialPos);
         this._malus = []
-        this._nextMovePeriod = speed;
-    }
-
-    get bodyPartsNbr(){
-        return this._bodyPartsNbr;
+        this._movePeriod = speed;
     }
 
     nextMove(nextHeadPos){
