@@ -1,12 +1,22 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('path');
 
-app.whenReady().then(createWindow);
+let win;
 
-function createWindow() {
-  const win = new BrowserWindow({
-    
+app.whenReady().then(() => {
+  win = new BrowserWindow({
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      webSecurity: false,
+      nodeIntegration: false // disable node integration in renderer process
+    }
   });
+
   win.maximize();
-  win.loadFile("./snake2.html");
-  win.webContents.openDevTools();
-}
+  win.loadFile('./snake.html');
+  //win.webContents.openDevTools();
+});
+
+ipcMain.on('loadFile', (event, fileName) => {
+  win.loadFile(fileName);
+});

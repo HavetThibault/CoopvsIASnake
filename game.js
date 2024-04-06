@@ -47,6 +47,7 @@ class Game{
         this.resetFoodPos();
         this.updateSnake1Score();
         this.updateSnake2Score();
+        this._gameAnimator.displayLvl(this._level_cnt+1);
     }
 
     get snake1(){
@@ -213,6 +214,7 @@ class Game{
 
     winning() {
         this._level_cnt++;
+        this._gameAnimator.displayLvl(this._level_cnt+1);
         if (this._level_cnt == this._levels.length) {
             this._gameAnimator.showGift();
             this._level_cnt--;

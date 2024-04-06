@@ -3,231 +3,66 @@
 <head>
   <title></title>
   <style>
-  html, body {
-    height: 100%;
-    margin: 0;
-  }
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
 
-  body {
-    background: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  canvas {
-    border: 1px solid white;
-  }
+    body {
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    canvas {
+      border: 1px solid white;
+    }
+
+    /* #greenSnakeSpeed {
+      /* Change background color of the track 
+      background-color: green;
+    } */
+
+    #fushiaSnakeSpeed::-webkit-slider-thumb {
+        /* Change background color of the thumb button */
+        background-color: rgb(255, 0, 153);
+    }
+
+    #greenSnakeSpeed::-webkit-slider-thumb {
+        /* Change background color of the thumb button */
+        background-color: rgb(153, 221, 0);
+    }
+
   </style>
-  <link rel="stylesheet" href="../bootstrap-5.0.2-dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="./bootstrap-5.0.2-dist/css/bootstrap.min.css"/>
   <title>Mini-jeu - Annif de Clément et Marie</title>
 </head>
 <body class="bg-dark">
-  <div class="container-center-md">
-    <p id="scoreLabel" class="text-secondary text-center fs-3"></p>
-    <canvas class="border border-secondary" width="1000" height="800" id="game"></canvas>
-    <p id="gift1" class="text-secondary text-center fs-2"></p>
-    <p id="gift2" class="text-secondary text-center fs-2"></p>
-  </div>
-  <script>
-    var score = 0;
-    const maxScore = min(20 + localStorage.getItem("errorNbr") / 2, 35);
-
-    function min(nbr1, nbr2){
-      if(nbr1 <= nbr2)
-        return nbr1;
-      return nbr2;
-    }
-
-    function updateScoreLabel(score){
-      document.getElementById("scoreLabel").innerHTML = score + "/182"
-    }
-
-    var canvas = document.getElementById('game');
-    var context = canvas.getContext('2d');
-
-    var canvasWidth = 900;
-    var canvasHeight = 1200;
-
-    var squareSize = 20; // must be pair
-    var gridSquareNbrWidth = canvasWidth / squareSize;
-    var gridSquareNbrHeight = canvasHeight / squareSize;
-    var count = 0;
-    
-    var x_snake_initPos = canvasWidth/2;
-    var y_snake_initPos = canvasHeight/2;
-
-    var initTime = 14
-    const initSpeed = 1
-    var speed = initSpeed;
-    var deaths = 0;
-      //////////////::canvas.width,canvas.height
-    var snake = {
-      // Head position
-      x: x_snake_initPos,
-      y: y_snake_initPos,
-      
-      // snake velocity. moves one grid length every frame in either the x or y direction
-      dx: squareSize,
-      dy: 0,
-      
-      // keep track of all grids the snake body occupies
-      cells: [],
-      
-      // length of the snake. grows when eating an apple
-      maxCells: 4
-    };
-    var apple = {
-      x: canvasWidth/2 + 3*squareSize,
-      y: canvasHeight/2 + 3*squareSize
-    };
-
-    // get random whole numbers in a specific range
-    function getRandomInt(min, max) {
-      return Math.floor(Math.random() * (max - min)) + min;
-    }
-
-    updateScoreLabel(score);
-
-    // game loop
-    function loop() {
-      requestAnimationFrame(loop);
-
-      // slow game loop to <initTime> fps instead of 60 (60/initTime)
-      count = count + 2*speed
-      if (count < initTime) {
-        return;
-      }
-
-      count = 0;
-      context.clearRect(0,0,);
-
-      // move snake by it's velocity
-      snake.x += snake.dx;
-      snake.y += snake.dy;
-
-      // wrap snake position horizontally on edge of screen
-      if (snake.x < 0) {
-        snake.x = canvas.width - squareSize;
-      }
-      else if (snake.x >= canvas.width) {
-        snake.x = 0;
-      }
-      
-      // wrap snake position vertically on edge of screen
-      if (snake.y < 0) {
-        snake.y = canvas.height - squareSize;
-      }
-      else if (snake.y >= canvas.height) {
-        snake.y = 0;
-      }
-
-      // keep track of where snake has been. front of the array is always the head
-      snake.cells.unshift({x: snake.x, y: snake.y});
-
-      // remove cells as we move away from them
-      if (snake.cells.length > snake.maxCells) {
-        snake.cells.pop();
-      }
-
-      // draw apple
-      context.fillStyle = 'red';
-      context.fillRect(apple.x, apple.y, squareSize-1, squareSize-1);
-
-      // draw snake one cell at a time
-      context.fillStyle = 'green';
-      snake.cells.forEach(function(cell, index) {
-        
-        // drawing 1 px smaller than the grid creates a grid effect in the snake body so you can see how long it is
-        context.fillRect(cell.x, cell.y, squareSize-1, squareSize-1);  
-
-        // snake ate apple
-        if (cell.x === apple.x && cell.y === apple.y) {
-          snake.maxCells++;
-
-          apple.x = getRandomInt(0, gridSquareNbrWidth) * squareSize;
-          apple.y = getRandomInt(0, gridSquareNbrHeight) * squareSize;
-
-          ++score
-          if(score == maxScore / 4)
-            speed = speed + 0.1
-          else if(score == maxScore / 2)
-            speed = speed + 0.1
-          else if(score == maxScore * 3 / 4)
-            speed = speed + 0.1
-
-          updateScoreLabel(score);
-          if(score >= maxScore)
-          {
-            document.getElementById("gift1").innerHTML = "Bon anniversaire fils"
-            document.getElementById("gift2").innerHTML = "PKJFG-XXA47-5FQXY"
-
-          }
-        }
-
-        // check collision with all cells after this one (modified bubble sort)
-        for (var i = index + 1; i < snake.cells.length; i++) {
-          
-          // snake occupies same space as a body part. reset game
-          if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
-            snake.x = x_snake_initPos;
-            snake.y = y_snake_initPos;
-            snake.cells = [];
-            snake.maxCells = 4;
-            snake.dx = squareSize;
-            snake.dy = 0;
-
-            apple.x = getRandomInt(0, gridSquareNbrWidth) * squareSize;
-            apple.y = getRandomInt(0, gridSquareNbrHeight) * squareSize;
-
-            updateScoreLabel(0)
-            score = 0
-            deaths++
-            speed = initSpeed;
-          }
-        }
-      });
-    }
-
-    // listen to keyboard events to move the snake
-    document.addEventListener('keydown', function(e) {
-      // prevent snake from backtracking on itself by checking that it's 
-      // not already moving on the same axis (pressing left while moving
-      // left won't do anything, and pressing right while moving left
-      // shouldn't let you collide with your own body)
-      
-      // left arrow key
-      if (e.which === 37 && snake.dx === 0) {
-        snake.dx = -squareSize;
-        snake.dy = 0;
-      }
-      // up arrow key
-      else if (e.which === 38 && snake.dy === 0) {
-        snake.dy = -squareSize;
-        snake.dx = 0;
-      }
-      // right arrow key
-      else if (e.which === 39 && snake.dx === 0) {
-        snake.dx = squareSize;
-        snake.dy = 0;
-      }
-      // down arrow key
-      else if (e.which === 40 && snake.dy === 0) {
-        snake.dy = squareSize;
-        snake.dx = 0;
-      }
-
-      // 'f' key
-      else if (e.which == 70) {
-        speed = speed * 1.1
-      }
-      // 's' key
-      else if (e.which == 83) {
-        speed = speed * 0.9
-      }
-    });
-
-    // start the game
-    requestAnimationFrame(loop);
-  </script>
+    <div class="container-center-md">
+      <div class="row">
+        <p id="lvlIndicator" class="text-center text-white fs-2 form-label mt-3"></p>
+      </div>
+      <div class="row">
+        <p id="score1Label" class="col text-center text-white fs-2 form-label mt-3" data-mdb-animation-start="manually"></p>
+        <p id="score2Label" class="col text-center text-white fs-2 form-label mt-3" data-mdb-animation-start="manually"></p>
+      </div>
+      <div class="row">
+        <div class="col center">
+          <canvas class="border border-secondary" width="1000" height="800" id="game" data-mdb-animation-start="manually"></canvas>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col-5">
+          <input id="fushiaSnakeSpeed" class="form-range" type="range" min="0" max="100">
+        </div>
+        <div class="col-1"></div>
+        <div class="col-5">
+          <input id="greenSnakeSpeed" class="form-range" type="range" min="0" max="100">
+        </div>
+        <div class="col"></div>
+      </div>
+    </div>
+  <script src="./script.js", type="module"></script>
 </body>
 </html>

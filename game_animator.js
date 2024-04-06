@@ -1,10 +1,11 @@
+const { electron } = window;
 
 class GameAnimator {
-    constructor(gameCanvas, snake1LabelScore, snake2LabelScore, giftImg) {
+    constructor(gameCanvas, lvlLabel, snake1LabelScore, snake2LabelScore) {
+        this._lvlLabel = lvlLabel;
         this._snake1LabelScore = snake1LabelScore;
         this._snake2LabelScore = snake2LabelScore;
         this._gameCanvas = gameCanvas;
-        this._giftImg = giftImg;
     }
 
     displaySnakeScore1(score, target) {
@@ -15,13 +16,17 @@ class GameAnimator {
         this._displayScore(score, target, this._snake2LabelScore);
     }
 
+    displayLvl(lvl){
+        this._lvlLabel.innerHTML = 'Level ' + lvl;
+    }
+
     _displayScore(score, target, scoreLabel) {
         let newLabelText = score + '/' + target;
         scoreLabel.innerHTML = newLabelText;
     }
 
     showGift() {
-        this._giftImg.src = './ressources/baiseur_approuved.png'
+        electron.sendToMain('loadFile', './resources/gift.pdf');
     }
 }
 

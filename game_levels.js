@@ -51,6 +51,17 @@ const lvl4Snake2TargetScore = 4;
 const lvl5Snake1TargetScore = 4;
 const lvl5Snake2TargetScore = 4;
 
+// const lvl1Snake1TargetScore = 2;
+// const lvl1Snake2TargetScore = 2;
+// const lvl2Snake1TargetScore = 2;
+// const lvl2Snake2TargetScore = 2;
+// const lvl3Snake1TargetScore = 2;
+// const lvl3Snake2TargetScore = 2;
+// const lvl4Snake1TargetScore = 2;
+// const lvl4Snake2TargetScore = 2;
+// const lvl5Snake1TargetScore = 2;
+// const lvl5Snake2TargetScore = 2;
+
 const lvl2OpponentSpeed = 13;
 const lvl3OpponentSpeed = 12;
 const lvl4OpponentSpeed = 11;
