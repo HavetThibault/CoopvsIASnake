@@ -12,9 +12,10 @@ app.whenReady().then(() => {
     }
   });
 
+  win.setMenu(null);
   win.maximize();
   win.loadFile('./snake.html');
-  //win.webContents.openDevTools();
+  win.webContents.openDevTools();
 });
 
 ipcMain.on('loadFile', (event, fileName) => {

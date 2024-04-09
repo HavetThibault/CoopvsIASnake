@@ -38,29 +38,42 @@
   <title>Mini-jeu - Annif de Clément et Marie</title>
 </head>
 <body class="bg-dark">
-    <div class="container-center-md">
+    <div class="container-center-xl">
       <div class="row">
-        <p id="lvlIndicator" class="text-center text-white fs-2 form-label mt-3"></p>
-      </div>
-      <div class="row">
-        <p id="score1Label" class="col text-center text-white fs-2 form-label mt-3" data-mdb-animation-start="manually"></p>
-        <p id="score2Label" class="col text-center text-white fs-2 form-label mt-3" data-mdb-animation-start="manually"></p>
-      </div>
-      <div class="row">
-        <div class="col center">
-          <canvas class="border border-secondary" width="1000" height="800" id="game" data-mdb-animation-start="manually"></canvas>
+        <div class="col">
+          
+        </div>
+        <div class="col">
+          <p id="lvlIndicator" class="text-center text-white fs-3 form-label mt-1"></p>
+        </div>
+        <div class="col">
+          <p class="text-center text-white fs-6 form-label mt-1">F11_for_better_experience</p>
         </div>
       </div>
       <div class="row">
+        <p id="score1Label" class="col text-center text-white fs-4 form-label mt-1"></p>
+        <p id="score2Label" class="col text-center text-white fs-4 form-label mt-1"></p>
+      </div>
+      <div class="row">
         <div class="col"></div>
-        <div class="col-5">
+        <div class="col center">
+          <canvas class="border border-secondary" width="750" height="600" id="game" data-mdb-animation-start="manually"></canvas>
+        </div>
+        <div class="col"></div>
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col-4">
           <input id="fushiaSnakeSpeed" class="form-range" type="range" min="0" max="100">
         </div>
         <div class="col-1"></div>
-        <div class="col-5">
+        <div class="col-4">
           <input id="greenSnakeSpeed" class="form-range" type="range" min="0" max="100">
         </div>
         <div class="col"></div>
+        <div class="row">
+          <p class="text-center text-white fs-6 form-label">^^^______Slide_me______^^^</p>
+        </div>
       </div>
     </div>
   <script src="./script.js", type="module"></script>

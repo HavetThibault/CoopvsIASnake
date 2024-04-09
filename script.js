@@ -6,8 +6,8 @@ import { GameAnimator } from './game_animator.js';
 import { SnakeSpeedController } from './snake_speed_controllers.js';
 
 
-const cellWidth = 20;
-const cellHeight = 20;
+const cellWidth = 15;
+const cellHeight = 15;
 
 const canvas = document.getElementById('game');
 const context = canvas.getContext('2d');

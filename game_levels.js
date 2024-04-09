@@ -62,10 +62,10 @@ const lvl5Snake2TargetScore = 4;
 // const lvl5Snake1TargetScore = 2;
 // const lvl5Snake2TargetScore = 2;
 
-const lvl2OpponentSpeed = 13;
-const lvl3OpponentSpeed = 12;
-const lvl4OpponentSpeed = 11;
-const lvl5OpponentSpeed = 10;
+const lvl2OpponentSpeed = 14;
+const lvl3OpponentSpeed = 13;
+const lvl4OpponentSpeed = 12;
+const lvl5OpponentSpeed = 11;
 
 function lvl1Opponents(xCellsNbr, yCellsNbr) {
     return [];
