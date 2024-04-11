@@ -4,15 +4,14 @@ import {getRandomInt} from './helper.js';
 import {InvertCtrlMalus} from './invert_ctrl_malus.js'
 
 
-const initialBodyPartsNbr = 2;
 const invertCtrlMalusDuration = 200;
 
-function resetSnake(snake, snakePos, move, speed){
+function resetSnake(snake, snakePos, move, speed, len){
     snake.clearMalus();
     snake.reset(
         snakePos, 
         copy(move), 
-        initialBodyPartsNbr,
+        len,
         speed);
 }
 
@@ -26,12 +25,12 @@ class Game{
         this._snake1 = new PlayerSnake(
             levels[0].snake1Pos,
             copy(levels[0].snake1Move), 
-            initialBodyPartsNbr, 
+            levels[0].snake1Len,
             levels[0].snake1Speed);
         this._snake2 = new PlayerSnake(
             levels[0].snake2Pos,
             copy(levels[0].snake2Move), 
-            initialBodyPartsNbr, 
+            levels[0].snake2Len,
             levels[0].snake2Speed);
         this._gameAnimator = gameAnimator;
         this._xCellsNbr = xCellsNbr;
@@ -80,8 +79,8 @@ class Game{
         this._opponents = [];
         let currentLvl = this.currentLvl;
         this._sleepingOpponents = currentLvl.generateOpponents();
-        resetSnake(this._snake1, currentLvl.snake1Pos, currentLvl.snake1Move, currentLvl.snake1Speed);
-        resetSnake(this._snake2, currentLvl.snake2Pos, currentLvl.snake2Move, currentLvl.snake2Speed);
+        resetSnake(this._snake1, currentLvl.snake1Pos, currentLvl.snake1Move, currentLvl.snake1Speed, currentLvl.snake1Len);
+        resetSnake(this._snake2, currentLvl.snake2Pos, currentLvl.snake2Move, currentLvl.snake2Speed, currentLvl.snake2Len);
         this.updateSnake1Score();
         this.updateSnake2Score();
         this.resetFoodPos();

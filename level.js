@@ -1,7 +1,8 @@
 
 class Level{
     constructor(snake1Pos, snake1Move, snake1Speed, snake1TargetScore, snake2Pos,
-        snake2Move, snake2Speed, snake2TargetScore, generateOpponents, xCellsNbr, yCellsNbr) {
+        snake2Move, snake2Speed, snake2TargetScore, generateOpponents, xCellsNbr, yCellsNbr,
+        snake1Len, snake2Len) {
         this._generateOpponents = generateOpponents
         this._snake1TargetScore = snake1TargetScore
         this._snake2TargetScore = snake2TargetScore
@@ -13,6 +14,8 @@ class Level{
         this._snake2Speed = snake2Speed;
         this._xCellsNbr = xCellsNbr;
         this._yCellsNbr = yCellsNbr;
+        this._snake1Len = snake1Len;
+        this._snake2Len = snake2Len;
     }
 
     get snake1Pos(){
@@ -45,6 +48,14 @@ class Level{
 
     get snake2TargetScore(){
         return this._snake2TargetScore
+    }
+
+    get snake1Len(){
+        return this._snake1Len;
+    }
+
+    get snake2Len(){
+        return this._snake2Len;
     }
 
     generateOpponents(){

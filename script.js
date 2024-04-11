@@ -1,7 +1,7 @@
 import {Game} from './game.js';
 import {linkSnakeControllers} from './snake_controllers.js';
 import {GameRenderer} from './game_renderer.js';
-import { getLvl1, getLvl2, getLvl3, getLvl4, getLvl5 } from './game_levels.js';
+import { getLvl1, getLvl2, getLvl3, getLvl4, getLvl5, getLvl6, getLvl7, getLvl8, getLvl9 } from './game_levels.js';
 import { GameAnimator } from './game_animator.js';
 import { SnakeSpeedController } from './snake_speed_controllers.js';
 
@@ -21,6 +21,10 @@ let levels = [
     getLvl3(xCellNbr, yCellNbr),
     getLvl4(xCellNbr, yCellNbr),
     getLvl5(xCellNbr, yCellNbr),
+    getLvl6(xCellNbr, yCellNbr),
+    getLvl7(xCellNbr, yCellNbr),
+    getLvl8(xCellNbr, yCellNbr),
+    getLvl9(xCellNbr, yCellNbr),
 ]
 
 const score1Label = document.getElementById('score1Label');
