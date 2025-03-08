@@ -78,7 +78,7 @@ class Snake {
         this._processedMoveDirection = true;
     }
 
-    isBittingItself(){
+    isBitingItself(){
         for(let i = this._bodyPartsNbr; i >= 1; i--){
             if(equals(this._bodyParts[i],this._headPos))
                 return true;
@@ -94,9 +94,8 @@ class Snake {
     areSnakeColliding(snake){
         if(this.isColliding(snake.headPos))
             return true;
-        if(snake.isColliding(this.headPos))
-            return true;
-        return false;
+        return snake.isColliding(this.headPos);
+
     }
 
     removeExpiredMalus(){

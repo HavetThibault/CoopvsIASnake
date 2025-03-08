@@ -110,9 +110,9 @@ class Game{
     }
 
     collisionDetected(){
-        if(this._snake1.isBittingItself())
+        if(this._snake1.isBitingItself())
             return true;
-        if(this._snake2.isBittingItself())
+        if(this._snake2.isBitingItself())
             return true;
         if (this._snake1.isColliding(this._snake2.headPos))
             return true;

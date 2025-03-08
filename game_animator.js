@@ -26,7 +26,7 @@ class GameAnimator {
     }
 
     showGift() {
-        electron.sendToMain('loadFile', './resources/gift.pdf');
+        electron.sendToMain('loadFile', './resources/gift.html');
     }
 }
 

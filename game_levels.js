@@ -66,50 +66,50 @@ function horizontalSnake(startPos, width, length, speed, move, birthTick){
 
 const lvlSpeed = 8;
 
-// const lvl1Snake1TargetScore = 10;
-// const lvl1Snake2TargetScore = 10;
-// const lvl1Snake1Len = 6;
-// const lvl1Snake2Len = 6;
+const lvl1Snake1TargetScore = 13;
+const lvl1Snake2TargetScore = 13;
+const lvl1Snake1Len = 10;
+const lvl1Snake2Len = 10;
 
-// const lvl2Snake1TargetScore = 5;
-// const lvl2Snake2TargetScore = 5;
-// const lvl2Snake1Len = 2;
-// const lvl2Snake2Len = 2;
+const lvl2Snake1TargetScore = 5;
+const lvl2Snake2TargetScore = 5;
+const lvl2Snake1Len = 2;
+const lvl2Snake2Len = 2;
 
-// const lvl3Snake1TargetScore = 5;
-// const lvl3Snake2TargetScore = 5;
-// const lvl3Snake1Len = 2;
-// const lvl3Snake2Len = 2;
+const lvl3Snake1TargetScore = 5;
+const lvl3Snake2TargetScore = 5;
+const lvl3Snake1Len = 2;
+const lvl3Snake2Len = 2;
 
-// const lvl4Snake1TargetScore = 5;
-// const lvl4Snake2TargetScore = 5;
-// const lvl4Snake1Len = 2;
-// const lvl4Snake2Len = 2;
+const lvl4Snake1TargetScore = 5;
+const lvl4Snake2TargetScore = 5;
+const lvl4Snake1Len = 2;
+const lvl4Snake2Len = 2;
 
-// const lvl5Snake1TargetScore = 16;
-// const lvl5Snake2TargetScore = 16;
-// const lvl5Snake1Len = 12;
-// const lvl5Snake2Len = 12;
+const lvl5Snake1TargetScore = 18;
+const lvl5Snake2TargetScore = 18;
+const lvl5Snake1Len = 15;
+const lvl5Snake2Len = 15;
 
-// const lvl6Snake1TargetScore = 5;
-// const lvl6Snake2TargetScore = 5;
-// const lvl6Snake1Len = 2;
-// const lvl6Snake2Len = 2;
+const lvl6Snake1TargetScore = 5;
+const lvl6Snake2TargetScore = 5;
+const lvl6Snake1Len = 2;
+const lvl6Snake2Len = 2;
 
-// const lvl7Snake1TargetScore = 5;
-// const lvl7Snake2TargetScore = 5;
-// const lvl7Snake1Len = 2;
-// const lvl7Snake2Len = 2;
+const lvl7Snake1TargetScore = 5;
+const lvl7Snake2TargetScore = 5;
+const lvl7Snake1Len = 2;
+const lvl7Snake2Len = 2;
 
-// const lvl8Snake1TargetScore = 5;
-// const lvl8Snake2TargetScore = 5;
-// const lvl8Snake1Len = 2;
-// const lvl8Snake2Len = 2;
+const lvl8Snake1TargetScore = 5;
+const lvl8Snake2TargetScore = 5;
+const lvl8Snake1Len = 2;
+const lvl8Snake2Len = 2;
 
-// const lvl9Snake1TargetScore = 23;
-// const lvl9Snake2TargetScore = 23;
-// const lvl9Snake1Len = 18;
-// const lvl9Snake2Len = 18;
+const lvl9Snake1TargetScore = 25;
+const lvl9Snake2TargetScore = 30;
+const lvl9Snake1Len = 21;
+const lvl9Snake2Len = 26;
 
 
 // const lvl1Snake1TargetScore = 6;
@@ -162,8 +162,8 @@ const lvl2OpponentSpeed = 14;
 const lvl3OpponentSpeed = 14;
 const lvl4OpponentSpeed = 20;
 const lvl6OpponentSpeed = 20;
-const lvl7OpponentSpeed = 9;
-const lvl8OpponentSpeed = 11;
+const lvl7OpponentSpeed = 10;
+const lvl8OpponentSpeed = 12;
 
 function noOpponents(xCellsNbr, yCellsNbr) {
     return [];

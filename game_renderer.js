@@ -1,4 +1,4 @@
-const red1Color = '#ff0099'
+const red1Color = '#00ddff'
 const blue1Color = '#9900ff'
 const blue2Color = '#0000ff'
 const green1Color = '#99dd00'

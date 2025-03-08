@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" href="../bootstrap-5.0.2-dist/css/bootstrap.min.css"/>
+  <title>Cadeau - Annif de Clément et Marie</title>
+</head>
+<body class="bg-dark">
+    <div class="container-center-xl mt-5">
+      <p id="msg" class="text-center fs-5 text-white align-middle"></p>
+    </div>
+  <script>
+    let msgDiv = document.getElementById('msg')
+    let msgList = [
+      'Ainsi donc vous avez vaincu mon jeu ! (aplaudissements : clap, clap, clap)',
+      'Il faut dire que je ne vous en croyais pas capable... (gros sous-entendu)',
+      '',
+      'Mais au travers de cette épreuve, j\'ai vu de quoi vous étiez capable.',
+      'J\'ai pu constater de quel bois vous vous chauffiez,',
+      'observer l\'ampleur de votre talents,',
+      'dévisager l\'efficacité avec laquelle vous agissez,',
+      'm\'inspirer de l\'ardeur dont vous avez fait preuve !',
+      '',
+      'Mais trêve de mondanités.',
+      '',
+      'Si vous en voulez plus, envoyez à mon créateur le message suivant :',
+      'Nous l\'avons fait.'
+    ]
+    let currentMsgIndex = 0;
+    let msgIndex = 0;
+    var showText = function () {   
+      let message = msgList[msgIndex];
+      if (currentMsgIndex < message.length) {
+        msgDiv.innerHTML += message[currentMsgIndex];
+        currentMsgIndex++;
+        setTimeout(function () { showText(); }, 33);
+      }
+      else{
+        if(++msgIndex < msgList.length){
+          msgDiv.innerHTML += '<br>';
+          currentMsgIndex = 0;
+          if(msgList[msgIndex] != '')
+            setTimeout(function () { showText(); }, 1100);
+          else
+          setTimeout(function () { showText(); }, 0);
+        }
+      }
+    }
+
+    setTimeout(function () { showText(33); }, 2000);
+    
+  </script>
+</body>
+</html>
